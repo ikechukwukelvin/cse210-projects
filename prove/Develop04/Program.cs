@@ -1,44 +1,41 @@
-using System;
-using System.Threading;
-
 class Program
 {
     static void Main(string[] args)
     {
-        ActivityManager activityManager = new ActivityManager();
+        bool running = true;
 
-        while (true)
+        while (running)
         {
-            Console.WriteLine("Choose an activity:");
+            Console.WriteLine("Mindfulness Activities:");
             Console.WriteLine("1. Breathing Activity");
             Console.WriteLine("2. Reflection Activity");
             Console.WriteLine("3. Listing Activity");
-            Console.WriteLine("4. Custom Activity");
-            Console.WriteLine("5. Exit");
-            Console.Write("Enter your choice: ");
+            Console.WriteLine("4. Exit");
+            Console.Write("Choose an activity: ");
+
             string choice = Console.ReadLine();
+            MindfulnessActivity activity = null;
 
             switch (choice)
             {
                 case "1":
-                    activityManager.StartActivity(new BreathingActivity());
+                    activity = new BreathingActivity();
                     break;
                 case "2":
-                    activityManager.StartActivity(new ReflectionActivity());
+                    activity = new ReflectionActivity();
                     break;
                 case "3":
-                    activityManager.StartActivity(new ListingActivity());
+                    activity = new ListingActivity();
                     break;
                 case "4":
-                    activityManager.StartActivity(new CustomActivity());
-                    break;
-                case "5":
-                    Console.WriteLine("Exiting program...");
-                    return;
+                    running = false;
+                    continue;
                 default:
-                    Console.WriteLine("Invalid choice. Please try again.");
-                    break;
+                    Console.WriteLine("Invalid choice. Please select again.");
+                    continue;
             }
+
+            activity.StartActivity();
         }
     }
 }

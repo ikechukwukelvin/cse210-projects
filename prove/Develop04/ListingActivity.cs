@@ -1,6 +1,7 @@
-class ListingActivity : Activity
+public class ListingActivity : MindfulnessActivity
 {
-    private string[] prompts = {
+    private static readonly List<string> Prompts = new List<string>
+    {
         "Who are people that you appreciate?",
         "What are personal strengths of yours?",
         "Who are people that you have helped this week?",
@@ -8,17 +9,29 @@ class ListingActivity : Activity
         "Who are some of your personal heroes?"
     };
 
+    public ListingActivity() : base("Listing", "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.")
+    {
+    }
+
     protected override void PerformActivity()
     {
-        Console.WriteLine("Starting listing activity...");
-        Random random = new Random();
-        string prompt = prompts[random.Next(prompts.Length)];
+        Random rand = new Random();
+        string prompt = Prompts[rand.Next(Prompts.Count)];
         Console.WriteLine(prompt);
-        Thread.Sleep(2000);
+        Console.WriteLine("You have a few seconds to think about the prompt...");
+        ShowSpinner(3);
 
-        Console.WriteLine("Start listing...");
-        Thread.Sleep(Duration * 1000);
+        Console.WriteLine("Start listing items:");
+        DateTime startTime = DateTime.Now;
+        DateTime endTime = startTime.AddSeconds(Duration);
+        int count = 0;
 
-        Console.WriteLine($"You listed for {Duration} seconds.");
+        while (DateTime.Now < endTime)
+        {
+            string item = Console.ReadLine();
+            count++;
+        }
+
+        Console.WriteLine($"You listed {count} items.");
     }
 }

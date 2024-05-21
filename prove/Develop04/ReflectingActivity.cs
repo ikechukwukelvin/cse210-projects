@@ -1,13 +1,15 @@
-class ReflectionActivity : Activity
+public class ReflectionActivity : MindfulnessActivity
 {
-    private string[] prompts = {
+    private static readonly List<string> Prompts = new List<string>
+    {
         "Think of a time when you stood up for someone else.",
         "Think of a time when you did something really difficult.",
         "Think of a time when you helped someone in need.",
         "Think of a time when you did something truly selfless."
     };
 
-    private string[] questions = {
+    private static readonly List<string> Questions = new List<string>
+    {
         "Why was this experience meaningful to you?",
         "Have you ever done anything like this before?",
         "How did you get started?",
@@ -19,18 +21,23 @@ class ReflectionActivity : Activity
         "How can you keep this experience in mind in the future?"
     };
 
+    public ReflectionActivity() : base("Reflection", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.")
+    {
+    }
+
     protected override void PerformActivity()
     {
-        Console.WriteLine("Starting reflection activity...");
-        Random random = new Random();
-        string prompt = prompts[random.Next(prompts.Length)];
+        Random rand = new Random();
+        string prompt = Prompts[rand.Next(Prompts.Count)];
         Console.WriteLine(prompt);
-        Thread.Sleep(2000);
-
-        foreach (string question in questions)
+        int interval = Duration / Questions.Count;
+        foreach (var question in Questions)
         {
+            if (interval <= 0)
+                break;
+
             Console.WriteLine(question);
-            Thread.Sleep(3000);
+            ShowSpinner(interval);
         }
     }
 }

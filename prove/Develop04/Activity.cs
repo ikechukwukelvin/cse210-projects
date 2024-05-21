@@ -1,37 +1,47 @@
-abstract class Activity
+using System;
+using System.Collections.Generic;
+using System.Threading;
+
+public abstract class MindfulnessActivity
 {
-    protected int Duration { get; set; }
-    protected string Name { get; set; }
-    protected string Description { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int Duration { get; set; }
 
-    public void Start()
+    public MindfulnessActivity(string name, string description)
     {
-        Console.WriteLine($"Starting {Name} Activity:");
+        Name = name;
+        Description = description;
+    }
+
+    public void StartActivity()
+    {
+        Console.WriteLine($"Starting {Name} activity.");
         Console.WriteLine(Description);
-        SetDuration();
-        PrepareToBegin();
-        PerformActivity();
-        FinishActivity();
-    }
-
-    protected void SetDuration()
-    {
-        Console.Write("Enter the duration in seconds: ");
+        Console.WriteLine("Enter the duration of the activity in seconds: ");
         Duration = int.Parse(Console.ReadLine());
-    }
-
-    protected void PrepareToBegin()
-    {
         Console.WriteLine("Prepare to begin...");
-        Thread.Sleep(2000);
+        ShowSpinner(3);
+        PerformActivity();
+        EndActivity();
     }
 
     protected abstract void PerformActivity();
 
-    protected void FinishActivity()
+    protected void EndActivity()
     {
-        Console.WriteLine($"Congratulations! You've completed the {Name} Activity for {Duration} seconds.");
-        Thread.Sleep(3000);
-        Console.Clear();
+        Console.WriteLine("Good job! You have completed the activity.");
+        Console.WriteLine($"You completed the {Name} activity for {Duration} seconds.");
+        ShowSpinner(3);
+    }
+
+    protected void ShowSpinner(int seconds)
+    {
+        for (int i = 0; i < seconds; i++)
+        {
+            Console.Write(".");
+            Thread.Sleep(1000);
+        }
+        Console.WriteLine();
     }
 }
