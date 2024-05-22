@@ -9,31 +9,28 @@ class Program
 
         while (true)
         {
-            Console.WriteLine("1. Display goals\n2. Create goal\n3. Record event\n4. Display score\n5. Save goals\n6. Load goals\n7. Quit");
+            Console.WriteLine("1. Create goal\n2. List Goals\n3. Save goals\n4. Load goals\n5. Record event\n6. Quit");
             string choice = Console.ReadLine();
 
             switch (choice)
             {
                 case "1":
-                    goalManager.ListGoalDetails();
-                    break;
-                case "2":
                     goalManager.CreateGoal();
                     break;
+                case "2":
+                    goalManager.ListGoalDetails();
+                    break;
                 case "3":
-                    goalManager.RecordEvent();
+                    goalManager.SaveGoals();
                     break;
                 case "4":
-                    goalManager.DisplayPlayerInfo();
-                    break;
-                case "5":
-                    goalManager.SaveGoals();
-                    break;
-                case "6":
                     goalManager.LoadGoals();
                     break;
-                case "7":
-                    goalManager.SaveGoals();
+                case "5":
+                    goalManager.RecordEvent();
+                    goalManager.DisplayPlayerInfo();
+                    break;
+                case "6":
                     return;
                 default:
                     Console.WriteLine("Invalid choice.");

@@ -24,9 +24,8 @@ public class GoalManager
 
     public void DisplayPlayerInfo()
     {
-        Console.WriteLine($"Total Points: {_score}");
-        Console.WriteLine($"Level: {_level}");
-        Console.WriteLine($"Badges: {string.Join(", ", _badges)}");
+        Console.WriteLine($"Total Points: {_score} | Level: {_level}");
+        Console.WriteLine("Badges: " + string.Join(", ", _badges));
     }
 
     public void ListGoalNames()
@@ -85,21 +84,17 @@ public class GoalManager
         if (goal != null)
         {
             goal.RecordEvent();
-            if (goal is EternalGoal)
-            {
-                _score += goal.GetPoints();
-            }
-            else if (!goal.IsComplete())
-            {
-                _score += goal.GetPoints();
-            }
+            _score += goal.GetPoints();
+            Console.WriteLine("Event recorded!");
             CheckLevelUp();
         }
     }
 
     public void SaveGoals()
     {
-        string filePath = "goals.txt";
+        Console.Write("Enter username to save goals: ");
+        string username = Console.ReadLine();
+        string filePath = $"{username}_goals.txt";
         using (StreamWriter writer = new StreamWriter(filePath))
         {
             foreach (var goal in _goals)
@@ -107,13 +102,17 @@ public class GoalManager
                 writer.WriteLine(goal.GetStringRepresentation());
             }
         }
+        Console.WriteLine("Goals saved successfully!");
     }
 
     public void LoadGoals()
     {
-        string filePath = "goals.txt";
+        Console.Write("Enter username to load goals: ");
+        string username = Console.ReadLine();
+        string filePath = $"{username}_goals.txt";
         if (File.Exists(filePath))
         {
+            _goals.Clear();
             using (StreamReader reader = new StreamReader(filePath))
             {
                 string line;
@@ -152,15 +151,23 @@ public class GoalManager
                     }
                 }
             }
+            Console.WriteLine("Goals loaded successfully!");
+        }
+        else
+        {
+            Console.WriteLine("No saved goals found for this username.");
         }
     }
 
     private void CheckLevelUp()
     {
-        if (_score >= _level * 1000)
+        int pointsForNextLevel = _level * 1000;
+        if (_score >= pointsForNextLevel)
         {
             _level++;
-            _badges.Add($"Level {_level} Achieved!");
+            Console.WriteLine($"Congratulations! You've leveled up to Level {_level}!");
+            // Example badge for leveling up
+            _badges.Add($"Level {_level} Achiever");
         }
     }
 }
