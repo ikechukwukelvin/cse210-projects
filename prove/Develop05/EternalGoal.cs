@@ -1,14 +1,25 @@
 public class EternalGoal : Goal
 {
-    public EternalGoal(string name, int points) : base(name, points) { }
+    public EternalGoal(string name, string description, int points) 
+        : base(name, description, points) { }
 
     public override void RecordEvent()
     {
-        // Eternal goals are never complete, but you get points each time you record an event
+        // For eternal goals, each event adds points
+    }
+
+    public override bool IsComplete()
+    {
+        return false; // Eternal goals are never complete
     }
 
     public override string GetDetailsString()
     {
-        return $"[ ∞ ] {Name} - {Points} points (Eternal)";
+        return $"{_shortName}: {_description} - Points: {_points} - Eternal Goal";
+    }
+
+    public override string GetStringRepresentation()
+    {
+        return $"EternalGoal,{_shortName},{_description},{_points}";
     }
 }

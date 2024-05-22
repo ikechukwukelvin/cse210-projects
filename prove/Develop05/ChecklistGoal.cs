@@ -1,31 +1,44 @@
 public class ChecklistGoal : Goal
 {
-    public int TargetCount { get; set; }
-    public int CurrentCount { get; set; }
-    public int BonusPoints { get; set; }
+    private int _amountComplete;
+    private int _target;
+    private int _bonus;
+    private bool _isComplete;
 
-    public ChecklistGoal(string name, int points, int targetCount, int bonusPoints) 
-        : base(name, points)
+    public ChecklistGoal(string name, string description, int points, int target, int bonus)
+        : base(name, description, points)
     {
-        TargetCount = targetCount;
-        CurrentCount = 0;
-        BonusPoints = bonusPoints;
+        _amountComplete = 0;
+        _target = target;
+        _bonus = bonus;
+        _isComplete = false;
     }
 
     public override void RecordEvent()
     {
-        if (CurrentCount < TargetCount)
+        if (_amountComplete < _target)
         {
-            CurrentCount++;
-            if (CurrentCount == TargetCount)
+            _amountComplete++;
+            if (_amountComplete == _target)
             {
-                IsComplete = true;
+                _points += _bonus;
+                _isComplete = true;
             }
         }
     }
 
+    public override bool IsComplete()
+    {
+        return _isComplete;
+    }
+
     public override string GetDetailsString()
     {
-        return $"[ {(IsComplete ? "X" : " ")} ] {Name} - {Points} points, Completed {CurrentCount}/{TargetCount} times, Bonus: {BonusPoints} points";
+        return $"{_shortName}: {_description} - Points: {_points} - Progress: {_amountComplete}/{_target} - Complete: {IsComplete()}";
+    }
+
+    public override string GetStringRepresentation()
+    {
+        return $"ChecklistGoal,{_shortName},{_description},{_points},{_amountComplete},{_target},{_bonus},{_isComplete}";
     }
 }
