@@ -9,7 +9,7 @@ class Program
 
         while (true)
         {
-            Console.WriteLine("1. Create goal\n2. List Goals\n3. Save goals\n4. Load goals\n5. Record event\n6. Quit");
+            Console.WriteLine("1. Create goal\n2. List goals\n3. Save goals\n4. Load goals\n5. Record event\n6. Quit");
             string choice = Console.ReadLine();
 
             switch (choice)
