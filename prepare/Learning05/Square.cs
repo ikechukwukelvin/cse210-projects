@@ -6,8 +6,6 @@ public class Square : Shape
     {
         _side = side;
     }
-
-    // Notice the use of the override keyword here
     public override double GetArea()
     {
         return _side * _side;
